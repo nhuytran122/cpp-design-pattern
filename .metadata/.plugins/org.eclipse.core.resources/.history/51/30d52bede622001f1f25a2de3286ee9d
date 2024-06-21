@@ -1,0 +1,45 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class XuLyData {
+	public List<SinhVien> selectAll(){
+		List<SinhVien> lst = new ArrayList<>();
+		try {
+			Connection con = DbHelper.getInstance().getConnection();
+			String sql = "select * from SinhVien";
+			PreparedStatement cmd = con.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+			
+			while(rs.next()) {
+				String masv = rs.getString("MaSinhVien");
+				String hoten = rs.getString("HoTen");
+				boolean gtnam = rs.getBoolean("GioiTinhNam");
+				Date ngaysinh = rs.getDate("NgaySinh");
+				lst.add(new SinhVien(masv, hoten, gtnam, ngaysinh));
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lst;
+	}
+	
+	public void insertSV(SinhVien sv) {
+		try {
+			Connection con = DbHelper.getInstance().getConnection();
+			String sql = "insert into SinhVien(MaSinhVien, HoTen, GioiTinhNam, NgaySinh) values (?,?,?,?)";
+			PreparedStatement cmd = con.prepareStatement(sql);
+			cmd.setString(1, sv.getMasv());
+			cmd.setString(2, sv.getHoten());
+			cmd.setBoolean(3, sv.isGioitinhnam());
+			cmd.setDate(4, new java.sql.Date(sv.getNgaysinh().getTime()));
+			cmd.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

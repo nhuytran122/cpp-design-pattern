@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;Circle.java, CircleFactory.java, FlyweightPatternDemo.java, Shape.java&apos; to &apos;dp&apos;" description="Move 4 resources to &apos;dp&apos;" destination="src/com/nvtrung/dp" element1="src/com/nvtrung/dp/flyweight2/Circle.java" element2="src/com/nvtrung/dp/flyweight2/CircleFactory.java" element3="src/com/nvtrung/dp/flyweight2/FlyweightPatternDemo.java" element4="src/com/nvtrung/dp/flyweight2/Shape.java" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="4" stamp="1716774970138" updateReferences="true"/>
+</session>

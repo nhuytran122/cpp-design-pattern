@@ -1,0 +1,12 @@
+ Lib sẽ tạo với nguyên project
+	 1. Nhấn phải project, chọn menu lệnh Export
+	 2. Chọn tuỳ chọn JAR file trong hộp thoại & nhấn Next
+	 3. Chỉ định vị trí lưu file JAR thành phẩm & nhấn Finish
+	
+	 CÁCH DÙNG
+	 1. Chọn project, Alt + Enter
+	 2. Chọn Java Build Path
+	 3. Chọn tab Libraries
+	 4. Nhấn Classpath -> Add External JARs
+	 5. Chọn thư viện lib cần import
+	 Dùng lệnh import để import Lib

@@ -1,0 +1,19 @@
+INTERFACE
+- Giao diện giống như lớp trừu tượng, sử dụng interface thay cho abstract 
+- Chứa các phương thức trừu tượng nhưng không cài đặt.
+- Một lớp kế thừa lên 1 giao diện phải cài đặt tất cả các phương thức trên giao diện đó.
+- Một lớp chỉ kế thừa lên 1 lớp khác nhưng có thể kế thừa trên nhiều giao diện.
+
+public interface Music {
+	public abstract void PlayMusic (String filename);
+	public abstract void EndPlay();//theo mac dinh, public va abstract
+}
+
+public class Winamp implements Music {
+	public void PlayMusic (String filename) {
+		System.out.println(filename);
+	}
+	public void EndPlay(){
+		System.out.println("Ket thuc");
+	}
+}

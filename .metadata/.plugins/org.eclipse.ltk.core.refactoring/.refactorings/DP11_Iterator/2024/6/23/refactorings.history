@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;vt&apos; in &apos;test.ite.implement.IteratorSoNguyenVTChan&apos; to &apos;pos&apos;&#x0D;&#x0A;- Original project: &apos;DP11_Iterator&apos;&#x0D;&#x0A;- Original element: &apos;test.ite.implement.IteratorSoNguyenVTChan.vt&apos;&#x0D;&#x0A;- Renamed element: &apos;test.ite.implement.IteratorSoNguyenVTChan.pos&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;vt&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;test.ite.implement{IteratorSoNguyenVTChan.java[IteratorSoNguyenVTChan^vt" name="pos" references="true" setter="false" stamp="1717550212973" textual="false" version="1.0"/>
+</session>

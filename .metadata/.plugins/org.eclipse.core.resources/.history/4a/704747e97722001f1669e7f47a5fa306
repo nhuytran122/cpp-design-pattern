@@ -1,0 +1,15 @@
+package _08_Decorator;
+
+public class SimpleCoffee implements Coffee {
+
+	@Override
+	public String getDescription() {
+		return "cdscfgsdfsgfgdsgdsfgsgffgdf";
+	}
+
+	@Override
+	public double getCost() {
+		return 2.0;
+	}
+
+}

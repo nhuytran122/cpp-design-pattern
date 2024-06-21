@@ -1,0 +1,49 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class ChuongTrinh {
+
+	/**
+	 * Thử kết nối đến nguồn dữ liệu Ms SQL Server
+	 * 
+	 * @throws SQLException
+	 */
+	static void testReadDb() throws SQLException {
+		// 1. tạo connection
+		String connectionUrl = "jdbc:sqlserver://localhost;databaseName=QuanLySach;user=sa;password=123;encrypt=true;trustServerCertificate=true";
+		Connection con = DriverManager.getConnection(connectionUrl);
+
+		// 2. Tạo stmt
+		Statement stmt = con.createStatement();
+		String SQL = "SELECT MaTheLoai, TenTheLoai FROM TheLoai";
+
+		// 3. Thực thi stmt --> trả về tập kq
+		ResultSet rs = stmt.executeQuery(SQL);
+
+		// 4. Xử lý kq
+		while (rs.next()) {
+			String maTheLoai = rs.getString(1);
+			String tenTheLoai = rs.getString(2);
+
+			System.out.printf("Ma the loai = [%s], Ten the loai = [%s]\n", maTheLoai, tenTheLoai);
+		}
+
+		// 5. Giải phóng rsc
+		rs.close();
+		con.close();
+	}
+
+	public static void main(String[] args) {
+		try {
+			testReadDb();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

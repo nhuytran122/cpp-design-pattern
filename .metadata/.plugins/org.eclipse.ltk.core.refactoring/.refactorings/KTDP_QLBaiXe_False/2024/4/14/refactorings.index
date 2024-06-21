@@ -1,0 +1,53 @@
+1712297395990	Delete element
+1712298900289	Rename type 'XeDapbean'
+1712298975057	Rename type 'XeMaybean'
+1712300279758	Rename package '_21T1020105'
+1712301688708	Rename type 'Xe'
+1712301709950	Rename type 'XeBean'
+1712302158902	Rename method 'getBienSoXe'
+1712302169668	Rename method 'getLoaiXe'
+1712302176444	Rename method 'getSoVeXe'
+1712302183049	Rename method 'getTimeRa'
+1712302253243	Rename method 'getTimeVao'
+1712302259966	Rename method 'getTinhTrangRaBai'
+1712302282467	Rename method 'getTinhTrangVaoBai'
+1712302288207	Rename method 'setTimeRa'
+1712302295036	Rename method 'setTimeVao'
+1712302299964	Rename method 'tinhTien'
+1712302328841	Rename method 'setBSX'
+1712302333978	Rename method 'setTtRa'
+1712302339480	Rename method 'setTtVao'
+1712302427614	Delete element
+1712302537280	Delete element
+1712302555348	Rename method 'setSoVeXe'
+1712302657609	Delete element
+1712302680481	Rename method 'setBSX'
+1712302889711	Rename compilation unit 'XeDao.java'
+1712303635119	Delete element
+1712304345657	Rename type '__21T1020105XeMayBean'
+1712304633183	Rename type '_21T1020105Xe4Banh'
+1712305435817	Rename method 'ADDFull'
+1712305441214	Rename method 'getXeRa'
+1712305446378	Rename method 'getXeVao'
+1712305620519	Rename method 'getFullInf'
+1712305627297	Rename method 'getXeRa'
+1712305633024	Rename method 'getXeVao'
+1712307947961	Rename type 'PhuongTien'
+1712308096005	Rename type 'PhuongTienCuaXeDap'
+1712308285853	Rename type 'DBHelper'
+1712310057386	Rename method '_21T1020105getBienSoXe'
+1712365886133	Delete element
+1712365902932	Rename type '_21T1020105PhuongTien'
+1712365910945	Delete element
+1712365978291	Rename field 'conditionIn'
+1712365988247	Rename field 'conditionOut'
+1712366316351	Rename package '_21T1020105'
+1712366941748	Delete element
+1712366947419	Delete element
+1712366950380	Delete element
+1712369316746	Rename method 'getIDXe'
+1712369321600	Rename method 'getTimeRa'
+1712369327475	Rename method 'getTimeVao'
+1712369332635	Rename method 'setIDXe'
+1712369337797	Rename method 'setTimeRa'
+1712369342705	Rename method 'setTimeVao'

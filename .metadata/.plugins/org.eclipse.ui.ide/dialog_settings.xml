@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.jdt.ui.wizards.JavaProjectWizard"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+		</list>
+		<section name="NewWizard.dialogBounds">
+			<item key="DIALOG_X_ORIGIN" value="0"/>
+			<item key="DIALOG_Y_ORIGIN" value="0"/>
+			<item key="DIALOG_WIDTH" value="700"/>
+			<item key="DIALOG_HEIGHT" value="505"/>
+			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+		</section>
+	</section>
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="D:\HK6\DesignPattern\ThiCuoiKyDP"/>
+			<item value="D:\HK6\DesignPattern\E402-21T1020105-Trần Như Ý\E402-21T1020105-Trần Như Ý\ThiCuoiKyDP"/>
+			<item value="D:\HK6\DesignPattern\DP09_3_flyweight"/>
+			<item value="D:\HK6\DesignPattern\DP09_2_flyweight-server-sample"/>
+			<item value="D:\HK6\DesignPattern\flyweight-server-sample"/>
+			<item value="D:\HK6\DesignPattern\flyweight"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\STUDY"/>
+			<item value="D:\Download\Download_D\dp-flyweight-20240415\flyweight"/>
+			<item value="D:\Download\Download_D\dp-flyweight-20240415\flyweight-server-sample"/>
+			<item value="D:\HK6\DesignPattern\DP09_Flyweight_3DP"/>
+			<item value="D:\HK6\DesignPattern\dp-flyweight-20240415\flyweight"/>
+			<item value="D:\HK6\DesignPattern\DP09_Flyweight-server-sample"/>
+			<item value="D:\HK6\DesignPattern\dp-flyweight-20240415\flyweight-server-sample"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\A00_Start"/>
+			<item value="D:\HK6\DesignPattern\DP11_Iterator"/>
+			<item value="D:\HK6\DesignPattern\dp-iterator-20240415\DP11_Iterator"/>
+			<item value="D:\HK6\DesignPattern\dp-iterator-20240415\iterator"/>
+			<item value="D:\Download\Download_D\dp-state\state"/>
+			<item value="D:\HK6\DesignPattern\decorator-cafe\decorator"/>
+			<item value="D:\HK6\DesignPattern\dp-decorator-20240415\decorator"/>
+			<item value="D:\HK6\DesignPattern\dp-bai-kiem-tra-so1-final\bai-kiem-tra-so-1"/>
+			<item value="D:\Download\Download_D\BaiKiemTraSo1\BaiThiGiuaKy"/>
+			<item value="D:\Download\Download_D\bai-kiem-tra-so-1"/>
+			<item value="D:\Download\Download_D\dp-day12 (1)\bai-kiem-tra-so-1"/>
+			<item value="D:\HK6\DesignPattern\00_NOP\21T1020105-Y-TranNhuY\bai-kiem-tra-so-1"/>
+			<item value="D:\HK6\DesignPattern\TMP\21T1020105-Y-TranNhuY\bai-kiem-tra-so-1"/>
+			<item value="D:\HK6\Mẫu thiết kế\TMP\21T1020105-Y-TranNhuY\bai-kiem-tra-so-1"/>
+			<item value="D:\HK6\DesignPattern\21T1020105-Y-TranNhuY\bai-kiem-tra-so-1"/>
+			<item value="D:\HK6\DesignPattern\dp-day12\quanlybaixe-simple-model"/>
+			<item value="D:\HK6\DesignPattern\dp-day12\quanlybaixe-multiple-model"/>
+			<item value="D:\HK6\DesignPattern\dp-day12\bai-kiem-tra-so-1"/>
+			<item value="D:\Download\Download_D\flyweight-circle\flyweight"/>
+			<item value="D:\Download\Download_D\decorator-cafe\decorator"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\Bai4_OOP3"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\DeK38_test"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\BaiTapNhaLam"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\DeK38_"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\21T1020080-Thoi-PhanCanhThoi\KT_DP"/>
+			<item value="D:\HK3_4\HK4\00_JAVA\00_CODE\CLASS\BT2_Adapter"/>
+			<item value="D:\HK6\Mẫu thiết kế\21T102015-Y-TranNhuY\21T102015-Y-TranNhuY\KTGiuaKy_DP"/>
+			<item value="D:\HK6\DesignPattern\abstract-factory"/>
+			<item value="F:\HK6\DesignPattern\factory-method"/>
+		</list>
+		<section name="SmartImportWizard.dialogBounds">
+			<item key="DIALOG_X_ORIGIN" value="21"/>
+			<item key="DIALOG_Y_ORIGIN" value="30"/>
+			<item key="DIALOG_WIDTH" value="1132"/>
+			<item key="DIALOG_HEIGHT" value="958"/>
+			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+		</section>
+	</section>
+	<section name="SaveAsDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="619"/>
+		<item key="DIALOG_Y_ORIGIN" value="89"/>
+		<item key="DIALOG_WIDTH" value="700"/>
+		<item key="DIALOG_HEIGHT" value="645"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+	<section name="CleanDialogSettings">
+		<item key="TOGGLE_SELECTED" value="true"/>
+		<item key="DIALOG_WIDTH" value="662"/>
+		<item key="DIALOG_HEIGHT" value="434"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="611"/>
+		<item key="DIALOG_Y_ORIGIN" value="269"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+</section>

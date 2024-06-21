@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;A00_Note/src/NoteCode/SQL&apos; to &apos;KetNoiSQL&apos;" description="Rename resource &apos;SQL&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/NoteCode/SQL" name="KetNoiSQL" stamp="1715220654262" updateReferences="true"/>
+</session>

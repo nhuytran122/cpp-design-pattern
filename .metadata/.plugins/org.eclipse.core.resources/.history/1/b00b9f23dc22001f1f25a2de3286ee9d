@@ -1,0 +1,30 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+public class CauHinh {
+	private static CauHinh instance = null;
+	private String chuoiketnoi;
+	
+	private CauHinh() {
+		FileReader f;
+		try {
+			f = new FileReader("config.ini");
+			BufferedReader br = new BufferedReader(f);
+			this.chuoiketnoi = br.readLine();
+			br.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static CauHinh getInstance() {
+		if(instance == null)
+			instance = new CauHinh();
+		return instance;
+	}
+
+	public String getChuoiketnoi() {
+		return chuoiketnoi;
+	}	
+}

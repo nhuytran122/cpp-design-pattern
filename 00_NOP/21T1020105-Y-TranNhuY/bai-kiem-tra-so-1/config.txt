@@ -1,0 +1,2 @@
+TEXT_FILE
+D:\HK6\DesignPattern\00_NOP\21T1020105-Y-TranNhuY\bai-kiem-tra-so-1\sinhvien.txt

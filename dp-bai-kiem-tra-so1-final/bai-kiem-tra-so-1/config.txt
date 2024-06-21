@@ -1,0 +1,2 @@
+MS_SQLSERVER
+jdbc:sqlserver://localhost;databaseName=QuanLySach;user=sa;password=123;encrypt=true;trustServerCertificate=true

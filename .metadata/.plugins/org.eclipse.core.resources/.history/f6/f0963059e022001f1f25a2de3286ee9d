@@ -1,0 +1,30 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class XuLyData {
+	public List<SinhVien> selectAll(){
+		List<SinhVien> lst = new ArrayList<>();
+		try {
+			Connection con = DbHelper.getInstance().getConnection();
+			String sql = "select * from SinhVien";
+			PreparedStatement cmd = con.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+			
+			while(rs.next()) {
+				String masv = rs.getString("MaSinhVien");
+				String hoten = rs.getString("HoTen");
+				boolean gtnam = rs.getBoolean("GioiTinhNam");
+				Date ngaysinh = rs.getDate("NgaySinh");
+				lst.add(new SinhVien(masv, hoten, gtnam, ngaysinh));
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lst;
+	}
+}

@@ -1,0 +1,9 @@
+Xét một ví dụ thực tế: Bạn muốn sử dụng một bóng đèn led cần điện áp 3v, nhưng nguồn điện ở nhà bạn lại là 220v. Để bóng đèn hoạt động đúng và không bị cháy, bạn cần một thiết bị chuyển đổi từ 220v xuống 3v. Ở đây, thiết bị chuyển đổi đóng vai trò như một Adapter.
+
+Hiệu điện thế lớn hơn 3v bóng đèn sẽ cháy.
+Hiệu điện thế nhỏ hơn 3v bóng sáng mờ hoặc không phát sáng (Trong trường hợp này ta quy ước nó không phát sáng).
+Hiệu điện thế bằng 3v bóng đèn phát sáng
+Như vậy ta cần một adapter chuyển từ 220v sáng 3v. Mô hình thể hiện như sau:
+
+Mạng lưới điện Việt Nam --Cung cấp điện--> Adapter--Cung cấp 3v--> Đèn LED
+         220v                              Chuyển 220v xuống 3v   Yêu cầu 3v

@@ -1,0 +1,23 @@
+Phân biệt extends và implements
++ extends :  kế thừa các class
++ implements :  kế thừa các interface (VD có một class R và implements từ 
+interface Runnable thì bắt buộc rằng class R phải orver @Override tất cả các
+phương thức trừu tượng của interface Runnable)
+
+       Điểm khác biệt quan trọng :
+
+1) Một class có thể kế thừa từ một class khác, không thể extends từ một interface.
+
+2) Khi sử dụng extends, một class chỉ có thể kế thừa từ một class khác.
+
+3) Một interface có thể extends từ một interface khác.
+
+4)Một class có thể kế thừa từ nhiều interface khác bằng cách sử dụng implements:
+class D implements I, J, K{}
+
+5)Trong một lớp có thể sử dụng extends và implements.
+class E extends A implements I, J{}
+
+7)Một interface không thể implements từ một interface.
+
+

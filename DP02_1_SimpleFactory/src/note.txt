@@ -1,0 +1,2394 @@
+Note thêm
+Sắp xếp các đối tượng theo thuộc tính có kiểu String
+        PhanTu tmp = null;
+
+        for (int i = 0; i < lst.size() - 1; i++) {
+
+            for (int j = i + 1; j < lst.size(); j++) {
+
+                String x = lst.get(i).getXepLoai();
+
+                String y = lst.get(j).getXepLoai();
+
+                if (x.compareTo(y) > 0) {
+
+                    tmp = lst.get(i);
+
+                    lst.set(i, lst.get(j));
+
+                    lst.set(j, tmp);
+
+                }
+
+            }
+
+        }
+
+
+s1 == s2 thì trả về 0.
+s1 > s2 thì trả về giá trị dương: chạy for cái trước so vs cái sau > 0 thì sắp xếp từ A → Z
+s1 < s2 thì trả về giá trị âm
+Các đoạn code SQL & JAVA
+a. Select
+
+public List<SinhVien> selectAll() {
+
+		List<SinhVien> lstSV = new ArrayList<>();
+
+	    try {
+
+	    	Connection con = DbHelper.getInstance().getConnection();
+
+	    	String sql = "SELECT * FROM SinhVien";
+
+	        PreparedStatement stm = con.prepareStatement(sql);
+
+	        ResultSet rs = stm.executeQuery();
+
+	        while (rs.next()) {
+
+	        	String masv = rs.getString("MaSinhVien");
+
+				String hoten = rs.getString("HoTen");
+
+				Date ngaysinh = rs.getDate("NgaySinh");
+
+				Boolean gioitinhnam = rs.getBoolean("GioiTinhNam");
+
+				lstSV.add(new SinhVien(masv, hoten, gioitinhnam, ngaysinh));
+
+	        }
+
+	        rs.close();
+
+	    } catch (SQLException e) {
+
+	        e.printStackTrace();
+
+	    }
+
+	    return lstSV;
+
+	}
+
+
+b. Select_where
+
+Connection cn = (DPHelper.get_instance()).getConnection();
+try {
+			System.out.println("Nhap ho ten muon tim: ");
+			Scanner nhap = new Scanner(System.in);
+			String ht = nhap.nextLine();
+			//B1: Ket noi vao CSDL
+			KetNoi kn = new KetNoi();
+			kn.ketnoi();
+			//B2: Tao cau lenh SQL
+			String sql = "select * from tbl_nhanvien where hoten like ?";
+			//B3: Tao cau lenh
+			PreparedStatement cmd = cn.prepareStatement(sql);
+			//B4: Thuc hien cau lenh
+                        //số 1 ở đây ~ thứ tự tham số trong lệnh sql của dấu ?
+			cmd.setString(1, "%" + ht + "%");
+			ResultSet rs = cmd.executeQuery();
+			//B5: Duyet qua rs
+			while(rs.next()) {
+				String manv = rs.getString("manv");
+				String hoten = rs.getString("hoten");
+				Double hsl = rs.getDouble("hsl");
+				Date ns = rs.getDate("ngaysinh");
+				SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyy");
+				String ngaysinh = d.format(ns);
+			} 
+			rs.close();
+} catch (Exception e) {
+	e.printStackTrace();
+}
+c. Insert
+
+	public void insertSV(SinhVien sv) {
+
+		try {
+
+			Connection con = DbHelper.getInstance().getConnection();
+
+			String sql = "insert into SinhVien(MaSinhVien, HoTen, GioiTinhNam, NgaySinh) values (?,?,?,?)";
+
+			PreparedStatement cmd = con.prepareStatement(sql);
+
+			cmd.setString(1, sv.getMasv());
+
+			cmd.setString(2, sv.getHoten());
+
+			cmd.setBoolean(3, sv.isGioitinhnam());
+
+			cmd.setDate(4, new java.sql.Date(sv.getNgaysinh().getTime()));
+
+			cmd.executeUpdate();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
+
+d. Delete
+
+try {
+			//b1: Ket noi vao csdl
+			Connection cn = (DPHelper.get_instance()).getConnection();
+			//B2: Tao cau lenh sql
+			String sql= "delete from tbl_nhanvien where manv=?";
+			//B3: tao cau lenh
+			PreparedStatement cmd=cn.prepareStatement(sql);
+			cmd.setString(1, manv);
+			//b4: Thuc hien cau lenh
+} catch (Exception e) {
+	e.printStackTrace();
+}
+e. Update
+
+try {
+			//b1: Ket noi vao csdl
+			Connection cn = (DPHelper.get_instance()).getConnection();
+			//B2: Tao cau lenh sql
+			String sql="update tbl_nhanvien set hoten = ?, ngaysinh = ?, hsl = ?, madv = ? where manv = ?";
+			//B3: tao cau lenh
+			PreparedStatement cmd=cn.prepareStatement(sql);
+			cmd.setString(1, hoten);
+	                cmd.setDate(2, new java.sql.Date(ngaysinh.getTime()));
+			cmd.setDouble(3, hsl);
+			cmd.setString(4, madv);
+			cmd.setString(5, manv)
+} catch (Exception e) {
+	e.printStackTrace();
+}
+Các đoạn code TXT & Java
+a. Select
+
+	public List<SinhVien> selectAll() {
+
+		ArrayList<SinhVien> lstSV = new ArrayList<SinhVien>();
+
+		try{
+
+		     FileReader f = new FileReader(this.chuoiKetNoi);
+
+		     BufferedReader b = new BufferedReader(f);
+
+		     while(true){
+
+		          String st = b.readLine();
+
+		          if(st == null || st == "") break;
+
+		          String[] tt = st.split(",");
+
+		          lstSV.add(new SinhVien(tt[0], tt[1], Boolean.parseBoolean(tt[2]), convertToDate(tt[3])));
+
+		     }
+
+		     b.close();
+
+		} catch(Exception e) {
+
+		     e.printStackTrace();
+
+		}
+
+		return lstSV;
+
+	}
+
+b. Insert
+
+	public void insert(SinhVien sv) {
+
+		try {
+
+			// mở file ở chế độ APPEND
+
+			FileWriter fw = new FileWriter(this.chuoiKetNoi, true);
+
+			BufferedWriter bw = new BufferedWriter(fw);
+
+
+
+			// ghi dòng tương ứng sv
+
+			String stNewSV = String.format("%s,%s,%s,%s\n", //
+
+					sv.getMaSinhVien(), //
+
+					sv.getHoTen(), //
+
+					sv.isGioiTinhNam(), //
+
+					convertDateToString(sv.getNgaySinh())//
+
+			);
+
+			bw.write(stNewSV);
+
+			// đóng file lại
+
+			bw.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
+c. Delete
+
+public void delete(String maSinhVien) {
+
+		// Đọc danh sách SinhVien
+
+		var lst = selectAll();
+
+		
+
+		// Tìm vị trí trong danh sách mà trùng với maSinhVien
+
+		// or những vị trí, trường hợp trong file txt có nhiều sv có trùng msv --> dùng for each
+
+		int viTri = -1;
+
+		for (int i = 0; i < lst.size(); i++)
+
+			if (lst.get(i).getMaSinhVien().equals(maSinhVien)) {
+
+				viTri = i;
+
+				break;
+
+			}
+
+		
+
+		if (viTri != -1)
+
+			lst.remove(viTri);
+
+		
+
+		// Ghi toàn bộ danh sách này vào file
+
+		// - Mở file ở chế độ ghi đè
+
+		// - foreach sv
+
+		// 		write dòng sv vào file
+
+		// - Đóng file lại
+
+		try {
+
+			FileWriter w = new FileWriter(this.chuoiKetNoi);
+
+			// FileWriter w = new FileWriter(this.chuoiKetNoi, false);
+
+	        PrintWriter ghi = new PrintWriter(w);
+
+	        //boolean laDongDauTien = true;
+
+	        for (var sv : lst) {
+
+				String stNewSV = String.format("%s,%s,%s,%s\n", //
+
+						sv.getMaSinhVien(), //
+
+						sv.getHoTen(), //
+
+						sv.isGioiTinhNam(), //
+
+						convertDateToString(sv.getNgaySinh())//
+
+				);
+
+				ghi.write(stNewSV);
+
+	        }
+
+	        ghi.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
+d. Convert
+
+	private Date convertToDate(String stDMY) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+		Date kq = null;
+
+		try {
+
+			kq = sdf.parse(stDMY);
+
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+
+		}
+
+		return kq;
+
+	}
+
+
+
+	private String convertDateToString(Date d) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+		String strDay = sdf.format(d);
+
+		return strDay;
+
+	}
+
+Với ArrayList
+🧠 Các phương thức của ArrayList:
+
+Add(Object) CHỈ SỐ ĐẦU TIÊN LÀ 0
+Size(): Số phần tử trong ArayList
+Get(i): trả về Object tại chỉ số i.
+Remove(i): xóa phần tử thứ i contains("thứ cần tìm"): tìm kiếm trực tiếp phần tử. Kết quả trả về là true nếu tìm thấy, ngược lại trả về false.
+arraylist.set(int index, E element): không gán trực tiếp kiểu a[i] = a[j] được mà phải:
+tmp = lst.get(i);
+lst.set(i, lst.get(j));
+lst.set(j, tmp);
+Với Date
+public class DATE {
+	SimpleDateFormat d = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+	//String ns = "2000-09-19";
+	//Doi String --> Date
+	//Date ngay = d.parse(ns);
+
+	//Chuyển date -> String
+	//String t = d.format(<kieu Date>); 
+	
+	//VỚI SQL
+//	//Doi chuoi sang util Date
+//	SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+//	Date ngay = d.parse(ns);
+//	//Doi ngay util sang ngay sql
+//	cmd.setDate(4, new java.sql.Date(ngay.getTime()));
+}
+I. Simple Factory
+2. Dựng
+1. Tạo interface chung, có phương thức chung
+Interface ConVật
+
+public interface ConVật {
+	void kêu();
+}
+2. Tạo các class implements kế thừa cho interface vừa tạo ở B1 (tức: phải override lại các phương thức của interface)
+Class Chó
+
+public class Chó implements ConVật  {
+	@Override
+	public void kêu() {
+		System.out.println("Gâu gâu");		
+	}
+}
+Class Mèo
+
+public class Mèo implements ConVật {
+	@Override
+	public void kêu() {
+		System.out.println("Meo meo");
+	}
+}
+3. Tạo class Factory - nhà máy sản xuất các class ở B2
+Tạo hàm trả về đối tượng của interface với tên hàm có thể là <get_tênInterface>(String loại)
+
+Thân hàm:
+if(loại == “<tên 1 đối tượng của class ở B2)
+
+return new 1_class_ở_B2();
+
+else if(loại == “<tên 1 khác đối tượng của class ở B2)
+
+return new 1_class_khác_ở_B2();
+
+else ….
+
+Class ConVatFactory
+
+class ConVậtFactory {
+	public ConVật getConVật(String loại) {
+		if (loại == "GÀ")
+			return new Gà();
+		else if (loại == "CHÓ")
+			return new Chó();
+		else 
+			return new Mèo();
+	}
+}
+4. Test
+Tạo mới new 1 đối tượng Factory f
+
+Khai báo 1 đối tượng của interface x
+
+Khởi tạo interface x = f.get_tênInterface("loại");
+Thể hiện hoạt cảnh đối tượng x.phương_thức_của_interface();
+Code
+
+public class ChuongTrinh {
+	public static void main(String[] args) {
+		testConVật();
+	}
+
+	private static void testConVật() {
+		// 1. Khởi tạo con vật x
+		ConVậtFactory f = new ConVậtFactory();
+		ConVật animal = f.getConVật("CHÓ");
+
+		// 2. Thể hiện hoạt cảnh của game
+		animal.kêu();
+	}
+}
+II. Factory Method
+2. Dựng
+1. Tạo interface chung, có phương thức chung
+2. Tạo các class implements kế thừa cho interface vừa tạo ở B1 (tức: phải override lại các phương thức của interface)
+3. Tạo một lớp abstract Factory chung cho các đối tượng
+Định nghĩa phương thức Factory Method để tạo ra các đối tượng interface.
+
+public abstract class ConVậtFactory {
+	abstract public ConVật getConVật();
+}
+4. Từ lớp abstract trên, cài đặt các lớp Factory cho các loại đối tượng cụ thể
+public class GàFactory extends ConVậtFactory {
+	@Override
+	public ConVật getConVật() {
+		return new Gà();
+	}
+}
+5. Sử dụng trong client-code
+static void testFactoryMethod() {
+		// 1. Khai báo
+		ConVật x;
+
+		// 2. Tạo đối tượng
+		x = (new GàFactory()).getConVật();
+
+		// 3. Thể hiện hoạt cảnh
+		x.kêu();
+		
+		//Gọn:
+		ConVật animal = (new GàFactory().getConVật());
+		animal.kêu();
+	}
+III. Abstract Factory
+2. Dựng
+1. Xác định Interface cho các Abstract Product:
+Tạo các interface hoặc lớp trừu tượng để đại diện cho các sản phẩm mà Abstract Factory sẽ tạo ra.
+
+Interface DongVatAnCo
+
+package abstract_factory;
+
+public interface DongVatAnCo {
+	void chạy();
+}
+
+Interface DongVatAnThit
+
+package abstract_factory;
+
+public interface DongVatAnThit {
+	void đuổiTheo(DongVatAnCo x);
+}
+2. Tạo các lớp cụ thể của các Product:
+Triển khai các interface đã xác định để tạo ra các sản phẩm cụ thể.
+
+Class NguaVan
+
+package style1;
+
+import abstract_factory.DongVatAnCo;
+
+public class NguaVan implements DongVatAnCo {
+	@Override
+	public void chạy() {
+		System.out.printf("Ngựa vằn châu Phi chạy :D", this.toString());
+	}
+}
+
+Class SuTu
+
+package style1;
+
+import abstract_factory.DongVatAnCo;
+import abstract_factory.DongVatAnThit;
+
+public class SuTu implements DongVatAnThit {
+
+	@Override
+	public void đuổiTheo(DongVatAnCo x) {
+		System.out.printf("Sư tử châu Phi đuổi\\n", this.toString());
+		x.chạy();
+	}
+}
+Class Soc
+
+package style2;
+
+import abstract_factory.DongVatAnCo;
+
+public class Soc implements DongVatAnCo {
+	@Override
+	public void chạy() {
+		System.out.printf("Sóc châu Á nhảy", this.toString());
+	}
+}
+Class SoiRung
+
+package style2;
+
+import abstract_factory.DongVatAnCo;
+import abstract_factory.DongVatAnThit;
+
+public class SoiRung implements DongVatAnThit {
+	@Override
+	public void đuổiTheo(DongVatAnCo x) {
+		System.out.printf("Sói rừng châu Á đuổi\\n", this.toString());
+		x.chạy();
+	}
+}
+3. Xác định Abstract Class / Interface cho Abstract Factory:
+Tạo một interface hoặc lớp trừu tượng để đại diện cho Abstract Factory, định nghĩa các phương thức để tạo ra các sản phẩm trừu tượng.
+
+Class DongVatFactory
+
+package abstract_factory;
+
+public abstract class DongVatFactory {
+	public abstract DongVatAnCo createDongVatAnCo();
+	public abstract DongVatAnThit createDongVatAnThit();
+}
+4. Tạo các lớp cụ thể của Abstract Factory:
+Triển khai Abstract Factory bằng cách cung cấp các cài đặt cụ thể cho các phương thức tạo ra sản phẩm trừu tượng.
+
+Class FactoryStyle1
+
+package style1;
+
+import abstract_factory.DongVatAnCo;
+import abstract_factory.DongVatAnThit;
+import abstract_factory.DongVatFactory;
+
+public class FactoryStyle1 extends DongVatFactory {
+	@Override
+	public DongVatAnCo createDongVatAnCo() {
+		return new NguaVan();
+	}
+
+	@Override
+	public DongVatAnThit createDongVatAnThit() {
+		return new SuTu();
+	}
+}
+Class FactoryStyle2
+
+package style2;
+
+import abstract_factory.DongVatAnCo;
+import abstract_factory.DongVatAnThit;
+import abstract_factory.DongVatFactory;
+
+public class FactoryStyle2 extends DongVatFactory{
+	@Override
+	public DongVatAnCo createDongVatAnCo() {
+		return new Soc();
+	}
+
+	@Override
+	public DongVatAnThit createDongVatAnThit() {
+		return new SoiRung();
+	}
+}
+5. Sử dụng Abstract Factory:
+Sử dụng các lớp cụ thể của Abstract Factory để tạo ra các sản phẩm mà không cần quan tâm đến chi tiết cụ thể của từng sản phẩm.
+
+Class ChuongTrinh
+
+package ui;
+
+import abstract_factory.DongVatAnCo;
+import abstract_factory.DongVatAnThit;
+import abstract_factory.DongVatFactory;
+import style1.FactoryStyle1;
+
+public class ChuongTrinh {
+	public static void main(String[] args) {
+		test();
+	}
+
+	private static void test() {
+		// 1. Tạo nhà máy theo style
+		DongVatFactory f;
+		f = new FactoryStyle1();
+//		f = new FactoryStyle2();
+
+		// 2. Tạo & sử dụng các đối tượng thuộc 
+		// hệ sinh thái của nhà máy
+		DongVatAnThit x = f.createDongVatAnThit();
+		DongVatAnCo y = f.createDongVatAnCo();
+
+		// 3. Sử dụng các đối tượng THUỘC CÙNG STYLE
+		x.đuổiTheo(y);
+	}
+
+}
+IV. Singleton
+2. Dựng
+1. Tạo một hàm tạo (constructor) với tầm truy xuất private.
+2. Khai báo một biến static private _instance kiểu Singleton.
+3. Tạo một phương thức static public, thường được gọi là getInstance(),
+Để trả về thể hiện (instance) duy nhất của Singleton. 
+
+4. Sử dụng Singleton thông qua phương thức getInstance().
+Bằng cách gọi phương thức này, sẽ nhận được thể hiện duy nhất của Singleton.
+
+class DbHelper {
+	private Connection con = null;
+	public Connection getConnection() {
+		return this.con;
+	}
+
+	// 1. tạo biến static của chính lớp này
+	private static DbHelper _instance = null;
+	
+	// 2. định nghĩa hàm constructor cho lớp này: private
+	private DbHelper() throws SQLException{
+		String connectionUrl = "jdbc:sqlserver://localhost; databaseName=YourDB;user=YourUsername; password=YourPassword;encrypt=true; trustServerCertificate=true";
+		// hàm getConnection này không phải hàm của class DbHelper
+		con = DriverManager.getConnection(connectionUrl);
+	}
+	
+	// 3. định nghĩa hàm getInstance()
+	public static DbHelper getInstance throws SQLException() {
+		if (_instance == null)
+			_instance = new DbHelper();
+			
+		return _instance;
+	}
+}
+V. Builder
+2. Dựng
+1. Khai báo tất cả thuộc tính như thông thường, phân ra 2 nhóm: thuộc tính bắt buộc & thuộc tính tuỳ chọn.
+2. Khai báo inner class (public static class Builder) với đặc điểm
+Có tất cả thuộc tính của class ngoài
+
+Có constructor với tham số là tất cả thuộc tính bắt buộc có — như ví dụ trên là 2 thuộc tính đường và bột, tương ứng với constructor public Builder(double đường, double bột).
+
+Với mỗi thuộc tính tuỳ chọn, tạo ra phương thức dạng
+
+public Builder tênThuộcTính(KieuDuLieu value) {
+	this.tênThuộcTính = value;
+	return this;
+}
+Có hàm build được định nghĩa như sau
+
+public LớpNgoài build() {
+	return new LớpNgoài(this);
+}
+hàm này gọi đến constructor của lớp bên ngoài. Và hiển nhiên, chúng ta phải định nghĩa constructor như vậy ở lớp bên ngoài
+
+3. Định nghĩa constructor cho lớp bên ngoài, với dạng :
+private LớpNgoài(Builder b) {
+		// Gán tất cả thuộc tính của Builder ra thuộc tính của lớp ngoài
+		// Ví dụ
+		this.đường = b.đường;
+		this.bột = b.bột;
+
+		this.nướcDừa = b.nướcDừa;
+		this.cacao = b.cacao;
+	}
+4. Việc sử dụng lớp với mẫu Builder là rất đơn giản:
+		Bánh b = new Bánh.Builder(1.5, 0.7)
+				.cacao(5)
+				.nướcDừa(4.5)
+				.build();
+VI. Prototype
+2. Dựng
+1. Định nghĩa class như bình thường, với các getter, setter, constructor dùng các đối số
+class TenLop {
+		public TenLop(String field1, int field2, ...) {
+				this.field1 = field1;
+				this.field2 = field2;
+				...
+		}
+		...
+}
+2. Bổ sung constructor với đối số là class đó
+class TenLop {
+		public TenLop(TenLop x) {
+				this.field1 = x.field1;
+				this.field2 = x.field2;
+				...
+		}
+}
+3. Bổ sung hàm taoBanSao có dạng
+class TenLop {		
+		public TenLop taoBanSao() {
+				return new TenLop(this);
+		}
+}
+4. Đối với những class kế thừa class này thì phải thực hiện hai việc
+Tạo constructor với đối số là class con
+Override hàm taoBanSao
+Chẳng hạn, như dưới đây
+
+class TenLopCon extends TenLop {
+		private double field3; // thêm thuộc tính mới
+		
+		public TenLopCon(TenLopCon x) {
+			// gọi hàm này để khởi tạo các th.tính ở lớp cha
+				super(x); 
+			// gán thêm th.tính mới, chỉ có ở lớp con
+				this.field3 = x.field3; 
+		}
+		
+		@Overide
+		public TenLop taoBanSao() {
+				return new TenLopCon(this);
+		}
+}
+VII. Adapter
+2. Dựng
+1. Xác định giao diện hoặc lớp không tương thích
+Đầu tiên, xác định hai hoặc nhiều thành phần muốn tích hợp với nhau nhưng có các giao diện không tương thích.
+
+Ở phần BT, 2 thành phần không tương thích là SinhVien và CongNhan
+
+2. Tạo ra một (interface) Adapter
+Cần tạo ra một lớp mới, gọi là Adapter, mà sẽ chuyển đổi giao diện của một thành phần để nó có thể làm việc với các thành phần khác.
+
+Mô tả một giao thức mà các lớp khác phải tuân theo để có thể làm việc với client code.
+
+interface PhanTu
+
+public interface PhanTu {
+	String getXepLoai();
+	String getTen();
+	String getLoaiDoiTuong();
+}
+3. Triển khai Adapter
+Các lớp triển khai Adapter này sẽ triển khai giao diện mong muốn và chứa một tham chiếu đến thành phần không tương thích. Lưu ý: phải tạo constructor với tham chiếu này.
+
+Class PhanTuCuaSinhVien
+
+import com.peter.dp.SinhVien;
+public class PhanTuCuaSinhVien implements PhanTu {
+	private SinhVien sv;
+	
+	public PhanTuCuaSinhVien(SinhVien sv) {
+		super();
+		this.sv = sv;
+	}
+
+	@Override
+	public String getXepLoai() {
+		double dtb = sv.getDiemTrungBinh();
+	    if (dtb >= 8.5)
+	        return "A";
+	    else if (dtb >= 7)
+	        return "B";
+	    else if (dtb >= 5.5)
+	        return "C";
+	    else if (dtb >= 4.0)
+	        return "D";
+	    else
+	        return "X";
+	}
+
+	@Override
+	public String getTen() {
+		return sv.getHoTen();
+	}
+
+	@Override
+	public String getLoaiDoiTuong() {
+		return "SV";
+	}
+}
+Class PhanTuCuaCongNhan
+
+import java.util.Date;
+import com.peter.dp.CongNhan;
+
+public class PhanTuCuaCongNhan implements PhanTu {
+	private CongNhan cn;
+	
+	public PhanTuCuaCongNhan(CongNhan cn) {
+		super();
+		this.cn = cn;
+	}
+
+	@Override
+	public String getXepLoai() {
+		Date now = new Date();
+        Date startDate = (Date) cn.getNgayBatDauLamViec();
+        int namKinhNghiem = now.getYear() - startDate.getYear();
+		if (namKinhNghiem < 1) {
+            return "X";
+        } else if (namKinhNghiem >= 1 && namKinhNghiem <= 5) {
+            return "D"; 
+        } else if (namKinhNghiem <= 10) {
+            return "C"; 
+        } else if (namKinhNghiem <= 20) {
+            return "B";
+        } else {
+            return "A"; 
+        }
+	}
+
+	@Override
+	public String getTen() {
+		return cn.getHoTen();
+	}
+
+	@Override
+	public String getLoaiDoiTuong() {
+		return "CN";
+	}
+}
+4. Sử dụng Adapter
+Sử dụng Adapter để gọi các phương thức từ các thành phần không tương thích. (~ tất cả quy về interface Adapter ở B2 thông qua constructor của các lớp triển khai interface: interface = new trienkhai_interface(object_khong_tuong_thich_B1)
+
+Class Main
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.peter.dp.CongNhan;
+import com.peter.dp.CongNhanReader;
+import com.peter.dp.SinhVien;
+import com.peter.dp.SinhVienReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException, ParseException {        
+        // Đọc danh sách sinh viên và công nhân từ file
+        List<**SinhVien**> lstSV = SinhVienReader.readFromFile("sv.txt");
+        List<CongNhan> lstCN = CongNhanReader.readFromFile("cn.txt");
+        
+        // Tạo danh sách tổng hợp các đối tượng SinhVien và CongNhan
+        List<PhanTu> lst = new ArrayList<PhanTu>();
+        for (SinhVien sv: lstSV) {
+        	lst.add(new PhanTuCuaSinhVien(sv));
+        }
+        
+        for (CongNhan cn: lstCN) {
+        	lst.add(new PhanTuCuaCongNhan(cn));
+        }**
+        /*Collections.sort(lst, (nv1, nv2) -> {
+            String priority1 = nv1.getXepLoai();
+            String priority2 = nv2.getXepLoai();
+            return priority1.compareTo(priority2);
+        });*/
+        
+        PhanTu tmp = null;
+        for (int i = 0; i < lst.size() - 1; i++) {
+            for (int j = i + 1; j < lst.size(); j++) {
+                String x = lst.get(i).getXepLoai();
+                String y = lst.get(j).getXepLoai();
+                if (x.compareTo(y) > 0) {
+                    tmp = lst.get(i);
+                    lst.set(i, lst.get(j));
+                    lst.set(j, tmp);
+                }
+            }
+        }
+        
+        // In ra màn hình danh sách các đối tượng đã sắp xếp
+        System.out.println("STT           Họ tên               Loại         Độ ưu tiên");
+        for (int i = 0; i < lst.size(); i++) {
+            System.out.printf("%-14d%-22s%-16s%s\\n", i + 1, lst.get(i).getTen(), lst.get(i).getLoaiDoiTuong(), lst.get(i).getXepLoai());
+        }
+    }
+}
+VIII. Decorator KHÓ
+2. Dựng
+1. Tạo interface Component
+Xác định interface hoặc lớp cơ sở: Đầu tiên, cần xác định một interface hoặc một lớp cơ sở. Đây là lớp mà bạn muốn mở rộng tính năng của nó thông qua việc sử dụng decorator.
+
+interface Cafe
+
+package component;
+
+public interface Cafe {
+	String getMôTả();
+	double getGiá();
+}
+2. Tạo lớp cụ thể, cài đặt các hàm trong interface Component
+Class CafeChồn
+
+package component;
+public class CafeChồn implements Cafe {
+	@Override
+	public String getMôTả() {
+		return "Cafe chồn";
+	}
+
+	@Override
+	public double getGiá() {
+		return 50000;
+	}
+}
+Class CafePhin
+
+package component;
+public class CafePhin implements Cafe {
+	@Override
+	public String getMôTả() {
+		return "Cafe phin";
+	}
+
+	@Override
+	public double getGiá() {
+		return 8000;
+	}
+}
+3. Tạo lớp abtract BaseDecorator, cài đặt các hàm trong interface Component (implement interface trên) — dưới dạng abstract. Lớp này chứa một tham chiếu protected đến interface Component;  (nhớ tạo constructor với tham chiếu này). Có hàm getter tham chiếu đó. Override lại các hàm của interface dưới dạng abstract để các hàm extend nó điều chỉnh cụ thể
+Class TrangTríChoCafe
+
+package deco;
+import component.Cafe;
+public abstract class TrangTríChoCafe implements Cafe {
+	
+	protected Cafe cafe;
+	
+	public Cafe getCafe() {
+		return cafe;
+	}
+
+	@Override
+	public abstract String getMôTả();
+
+	@Override
+	public abstract double getGiá();
+}
+3. Tạo lớp cụ thể ConcreteDecorator, kế thừa BaseDecorator, cài đặt các hàm abstract được kế thừa từ BaseDecorator. Nhớ tạo constructor tham số là interface ở B1 (this.tham_chieu_ơ_B2 = tham_chieu_o_B2)
+Class ĐườngTrangTríChoCafe
+
+package deco;
+import component.Cafe;
+
+public class ĐườngTrangTríChoCafe extends TrangTríChoCafe {
+
+	@Override
+	public String getMôTả() {
+		// mô tả của ly café + ", đường"
+		return this.cafe.getMôTả() + " + đường";
+	}
+
+	@Override
+	public double getGiá() {
+		return this.cafe.getGiá() + 500;
+	}
+	
+	public int getSốLớpĐườngTrangTrí(Cafe cafe) {
+		// đếm xem có bao nhiêu lớp
+		// đường-trang-trí-cho-cafe đã thêm vào cafe?
+		int nĐườngTrangTrí = 0;
+		Cafe x2 = cafe;
+		while (true) {
+			if (x2 instanceof TrangTríChoCafe) {
+				// x2 đang là lớp trang trí
+				if (x2 instanceof ĐườngTrangTríChoCafe)
+					nĐườngTrangTrí++;
+				
+				// chuyển xuống lớp trang trí tiếp theo
+				// hoặc là cafe
+				x2 = ((TrangTríChoCafe) x2).getCafe();
+			}
+			else
+				break;
+		}
+		
+		return nĐườngTrangTrí;
+	}
+	
+	public ĐườngTrangTríChoCafe(Cafe cafe) throws Exception {
+//		if (getSốLớpĐườngTrangTrí(cafe) >= 2)
+//			throw new Exception("Không được thêm quá 2 lớp trang trí đường");
+		this.cafe = cafe;
+	}
+}
+
+Class SữaTrangTríChoCafe
+
+package deco;
+import component.Cafe;
+
+public class SữaTrangTríChoCafe extends TrangTríChoCafe {
+
+	@Override
+	public String getMôTả() {
+		return this.cafe.getMôTả() + " + sữa";
+	}
+
+	@Override
+	public double getGiá() {
+		return this.cafe.getGiá() + 2000;
+	}
+
+	public SữaTrangTríChoCafe(Cafe cafe) throws Exception {
+//		boolean daTrangTriSua = false;
+//		Cafe x = cafe;
+//		while (true) {
+//			if (x instanceof TrangTríChoCafe) {
+//				if (x instanceof SữaTrangTríChoCafe)
+//					daTrangTriSua = true;
+//				x = ((TrangTríChoCafe) x).cafe;
+//			}
+//			else
+//				break;
+//		}
+//		if (daTrangTriSua)
+//			throw new Exception("Không được thêm sữa 2 lần");
+		this.cafe = cafe;
+	}
+}
+Class RhumTrangTríChoCafe
+
+package deco;
+
+import component.Cafe;
+
+public class RhumTrangTríChoCafe extends TrangTríChoCafe {
+
+	@Override
+	public String getMôTả() {
+		return this.cafe.getMôTả() + " + rhum";
+	}
+
+	@Override
+	public double getGiá() {
+		return this.cafe.getGiá() + 5500;
+	}
+
+	// Hàm constructor
+	// Thêm lớp trang trí Rhum vào cho ly café x
+	public RhumTrangTríChoCafe(Cafe x) throws Exception {
+		// Kiểm tra xem x trước đó đã thêm Đường 
+		// hoặc Sữa hay chưa
+		boolean daCoDuongHoacSua = false;
+		Cafe x2 = x;
+		while (true) {
+			if (x2 instanceof TrangTríChoCafe) {
+				// Thực hiện kiểm tra lớp trang trí cho x2
+				if (x2 instanceof ĐườngTrangTríChoCafe || x2 instanceof SữaTrangTríChoCafe) {
+					daCoDuongHoacSua = true;
+					break;
+				}
+				x2 = ((TrangTríChoCafe) x2).getCafe();
+			} else
+				break;
+		}
+		
+		if (daCoDuongHoacSua)
+			throw new Exception("Không được trang trí thêm Rhum khi đã có đường/sữa");
+		
+		this.cafe = x;
+	}
+}
+Dùng lớp ConcreteDecorator để bổ sung cho các đối tượng giao diện Component
+
+4. Sử dụng
+Class ChuongTrinh
+
+import java.util.ArrayList;
+import java.util.List;
+
+import component.Cafe;
+import component.CafeChồn;
+import component.CafePhin;
+import component.CafeRangXay;
+import deco.RhumTrangTríChoCafe;
+import deco.SữaTrangTríChoCafe;
+import deco.TrangTríChoCafe;
+import deco.ĐườngTrangTríChoCafe;
+
+public class ChuongTrinh {
+	static void testCafe() throws Exception {
+		Cafe x;
+		
+		x = new CafeChồn();
+		System.out.printf("%s, giá: %g\\n", x.getMôTả(), x.getGiá());
+		
+		Cafe x2 = null;
+//		x2 = new SữaTrangTríChoCafe(x);
+//		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+
+		x2 = new RhumTrangTríChoCafe(x);
+		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+
+//		x2 = new SữaTrangTríChoCafe(x2);
+//		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+//		
+//		x2 = new ĐườngTrangTríChoCafe(x2);
+//		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+
+		x2 = new RhumTrangTríChoCafe(x2);
+		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+		
+		x2 = new ĐườngTrangTríChoCafe(x2);
+		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+		
+		x2 = new SữaTrangTríChoCafe(x2);
+		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+		
+		x2 = new RhumTrangTríChoCafe(x2);
+		System.out.println(x2.getMôTả() + ", giá " + x2.getGiá());
+	}
+
+	public static void main(String[] args) {
+		try {
+			testCafe();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+IX. Composite
+3. Dựng
+Phải đảm bảo mô hình tương ứng có dạng tương tự như cấu trúc hình cây. Đây là yếu tố tiên quyết. Với bảo đảm này, chia nhỏ các phần tử thành 2 loại: phần tử đơn và phần tử phức. Phần tử phức có thể chứa vừa phần tử đơn vừa phần tử phức khác.
+
+1. Xác định danh sách các hàm chung được thực hiện chung cho cả phần tử đơn và phần tử phức → định nghĩa giao diện Component. /kəmˈpəʊnənt/
+Giao diện chung cho cả lớp đơn giản & lớp phức — Component
+
+public interface Component {
+	long getTotalSize();
+	***void editPath(String str);
+	String getName();***
+}
+2. Tạo class cho phần tử đơn, implement Component. Có thể có nhiều class đơn như thế.
+Lớp lá File
+
+@lombok.AllArgsConstructor
+@lombok.Getter 
+@lombok.Setter
+public class File implements Component {
+		
+		private String name;
+		private long size;
+	
+		@Override
+		public long getTotalSize() {
+			return this.size;
+		}
+
+		***@Override
+		public void editPath(String str) {
+			setName(str + this.name);
+		}***
+}
+3. Tạo class cho phần tử phức, implement Component. Trong class này sẽ có một danh sách (List<Component>) chứa tham chiếu của các phần tử con (kiểu Component). Nó làm việc với các phần tử con thông qua giao diện của Component.
+Code tham khảo
+
+Lớp phức Folder
+
+import java.util.List;
+import java.util.ArrayList;
+@lombok.Getter
+@lombok.Setter
+public class Folder implements Component {
+	
+	private String name;
+
+	// danh sách các đối tượng chứa trong thư mục này
+	private List<Component> lstItem = new ArrayList<>();
+
+	public Folder(String name, List<Component> lstItem) {
+		super();
+		this.name = name;
+		this.lstItem = lstItem;
+		***editChildPath();***
+	}
+	
+	@Override
+	public long getTotalSize() {
+		long kq = 0;
+		for (Component x : this.lstItem)
+			kq += x.getTotalSize();
+
+		return kq;
+	}
+
+	public List<Component> getLstItem() {
+		return lstItem;
+	}
+
+	***@Override
+	public void editPath(String str) {
+		setName(str + this.name);
+		for(Component x: this.lstItem) {
+			x.editPath(str);
+		}
+		
+	}
+	
+	private void editChildPath() {
+		for(Component x: this.lstItem) {
+			x.editPath(name + "/");
+		}
+	}***
+}
+Nếu cần có hàm add
+
+    public void add(Compoment c) {
+        lstItem.add(c);
+    }
+
+    public void add(Component... components) {
+        lstItem.addAll(Arrays.asList(components));
+    }
+
+    public void remove(Component c) {
+        lstItem.remove(child);
+    }
+
+    public void remove(Component... components) {
+        lstItem.removeAll(Arrays.asList(components));
+    }
+
+    public void clear() {
+        lstItem.clear();
+    }
+Chương trình minh hoạ
+
+import java.util.Arrays;
+
+public class ChuongTrinh {
+
+	public static void main(String[] args) {
+		/*
+		LAPTRINH
+		|__JAVA
+		|    |__baitap01 (5 kb)
+		|    |__baitap02 (3 kb)
+		|    |__LYTHUYET
+		|        |__abc (12 kb)
+		|__C#
+		|__test (1 kb)		 
+		*/
+		Component baitap01 	= new File("baitap01", 5);
+		Component baitap02 	= new File("baitap02", 3);
+		Component abc 		  = new File("abc", 12);
+		Component test 		  = new File("test", 1);
+		
+		Component LYTHUYET 	= new Folder("LY THUYET", Arrays.asList(abc));
+		Component JAVA 		  = new Folder("JAVA", Arrays.asList(baitap01, baitap02, LYTHUYET));
+		Component CSHARP 	  = new Folder("C#", Arrays.asList());		
+		Component LAPTRINH 	= new Folder("LAP TRINH", Arrays.asList(JAVA, CSHARP, test));
+		
+		***System.out.println("Duong dan cua baitap02 la: " + baitap02.getName());***
+    System.out.println("Kich thuoc cua baitap02 la: " + baitap02.getTotalSize());
+		***System.out.println("Duong dan cua LYTHUYET la: " + LYTHUYET.getName());***
+    System.out.println("Kich thuoc cua LYTHUYET la: " + LYTHUYET.getTotalSize());
+		System.out.println("Kich thuoc cua LAPTRINH la: " + LAPTRINH.getTotalSize());
+	}
+}
+X. Flyweight
+2. Dựng
+Bước 1: Xác định các phần tử cố định và biến đổi
+Xác định các thuộc tính mang tính bản chất: các thuộc tính mà các đối tượng có thể chia sẻ. Chúng thường là các thuộc tính không thay đổi hoặc ít thay đổi.
+Xác định các thuộc tính không mang tính bản chất: các thuộc tính không thể chia sẻ và thường được truyền vào từ bên ngoài.
+Bước 2: Tạo interface hoặc lớp cơ sở cho các đối tượng có thể chia sẻ (Flyweight)
+Interface hoặc lớp cơ sở này sẽ chứa các phương thức chung cho các đối tượng có thể chia sẻ.
+Các thuộc tính mang tính bản chất tại có thể được đặt trong interface hoặc lớp cơ sở.
+Interface hoặc lớp cơ sở này sẽ chứa các phương thức chung cho các đối tượng có thể chia sẻ. Trong trường hợp này, chúng ta có thể tạo một interface Shape.
+Code
+
+package flyweight2;
+
+public interface Shape {
+	void draw();
+}
+Bước 3: Xác định lớp cụ thể của Flyweight
+Tạo các lớp cụ thể của Flyweight implement interface hoặc kế thừa từ lớp cơ sở Flyweight.
+Implement các phương thức của Flyweight, bao gồm cả việc xử lý các thuộc tính nội tại và biến đổi (nếu cần).
+Tạo các lớp cụ thể của Flyweight implement interface Shape, chẳng hạn như Circle.
+
+Đảm bảo rằng các thuộc tính cố định như color và material được sử dụng thay vì lưu trữ tại mỗi đối tượng.
+
+Code
+
+package flyweight2;
+
+public class Circle implements Shape {
+	private String color;
+	
+	private int x;
+	private int y;
+	private int radius;
+
+	public Circle(String color) {
+		System.out.printf("Tạo mới đối tượng màu [%s] trong khoảng thời gian 2000ms...", color);
+		this.color = color;
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
+	@Override
+	public void draw() {
+		System.out.printf("Vẽ đường tròn bán kính %d, tọa độ tâm (%d, %d), màu %s\\n", this.radius, this.x, this.y, this.color);
+	}
+}
+Bước 4: Tạo một Factory để quản lý Flyweights
+Factory sẽ tạo và quản lý các Flyweights.
+Khi cần sử dụng một Flyweight, Factory kiểm tra xem nó đã tồn tại chưa. Nếu chưa tồn tại, nó tạo mới; nếu đã tồn tại, nó sử dụng lại Flyweight đã có.
+Tạo một CircleFactory để tạo và quản lý các đối tượng Circle.
+
+Khi cần sử dụng một Circle, CircleFactory sẽ kiểm tra xem đã có một Circle có cùng color và material chưa. Nếu có, nó sẽ trả về đối tượng đó; nếu không, nó sẽ tạo một đối tượng mới.
+
+Code
+
+package flyweight2;
+
+import java.util.HashMap;
+
+public class CircleFactory {
+
+	private static final HashMap<String, Circle> cache = new HashMap<String, Circle>();
+
+	public static Circle getCircle(String color) {
+		Circle circle = cache.get(color);
+
+		if (circle == null) {
+			circle = new Circle(color);
+			cache.put(color, circle);
+			System.out.println("Đã tạo xong đối tượng với màu " + color);
+		} else {
+			System.out.println("Dùng lại đối tượng 
+				với màu " + color);
+		}
+		return circle;
+	}
+}
+
+Bước 5: Sử dụng Flyweights trong ứng dụng
+Khi cần sử dụng một đối tượng, client sẽ yêu cầu từ Factory.
+Client sẽ truyền các thuộc tính bên ngoài cần thiết cho đối tượng nếu có.
+Khi cần vẽ một hình tròn, client sẽ yêu cầu một Circle từ CircleFactory và truyền các thuộc tính biến đổi như x, y, r.
+
+Code
+
+package flyweight2;
+
+public class FlyweightPatternDemoMain {
+	private static final String colors[] = { "Red", "Green", "Blue", "White", "Black" };
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 20; ++i) {
+			var màu = getRandomColor();
+			var x = getRandomX();
+			var y = getRandomY();
+			var r = (int)(1 + 1000*Math.random());
+			
+			Circle circle = CircleFactory.getCircle(màu);
+			
+			circle.setX(x);
+			circle.setY(y);
+			circle.setRadius(r);
+			
+			circle.draw();
+		}
+	}
+
+	private static String getRandomColor() {
+		// 0 -> colors.length - 1
+		return colors[(int) (Math.random() 
+			* colors.length)];
+	}
+
+	private static int getRandomX() {
+		return (int) (Math.random() * 100);
+	}
+
+	private static int getRandomY() {
+		return (int) (Math.random() * 100);
+	}
+}
+XI. Strategy
+2. Dựng
+1. Xác định Interface / lớp cơ sở để đại diện cho tất cả các thuật toán.
+Interface này sẽ định nghĩa phương thức mà tất cả các thuật toán cụ thể sẽ phải triển khai.
+
+Là chung cho tất cả concrete strategy. Nó khai báo một phương thức mà context sẽ dùng để gọi & thực thi một công việc gì đó (theo chiến lược cụ thể)
+
+Class iSortStrategy
+
+public interface iSortStrategy {
+
+	void sapXep(int arr[]);
+
+}
+2. Tạo các class (~ thuật toán) cụ thể triển khai interface đã được xác định.
+Mỗi lớp này sẽ triển khai phương thức của interface để thực hiện thuật toán của nó.
+
+Các lớp Concrete Strategy cài đặt các bản khác nhau (chiến lược khác nhau) của thuật toán.
+
+Class SapXepChen
+
+public class SapXepChen implements iSortStrategy{
+	@Override
+	public void sapXep(int arr[]) {
+		int n = arr.length;
+        for (int i = 1; i < n; ++i) {
+            int key = arr[i];
+            int j = i - 1;
+
+            /* Di chuyển các phần tử của arr[0..i-1], 
+            lớn hơn key, đến một vị trí trước vị trí 
+            hiện tại của chúng */
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = key;
+        }
+	}
+}
+Class SapXepNoiBot
+
+public class SapXepNoiBot implements iSortStrategy{
+	@Override
+    public void sapXep(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = 0; j < n - i - 1; j++)
+                if (arr[j] > arr[j + 1]) {
+                    // Hoán đổi arr[j] và arr[j+1]
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+    }
+}
+Class SapXepNhanh
+
+public class SapXepNhanh implements iSortStrategy{
+	@Override
+    public void sapXep(int[] arr) {
+        quickSort(arr, 0, arr.length - 1);
+    }
+
+    private void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1;
+    }
+}
+3. Tạo Context: nơi sẽ sử dụng các thuật toán, chứa một tham chiếu đến một đối tượng thuật toán (~interface đã xác định) và sẽ gọi phương thức của thuật toán đó khi cần.
+Context chứa một tham chiếu đến một trong những concrete strategy & giao tiếp với đối tượng được tham chiếu này chỉ thông qua giao diện strategy (chứa 1 đối tượng interface Strategy)
+
+Class Context
+
+
+public class Context {
+    private iSortStrategy strategy;
+
+    public Context(iSortStrategy strategy) {
+		super();
+		this.strategy = strategy;
+	}
+
+	public Context() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void setStrategy(iSortStrategy strategy) {
+                this.strategy = strategy;
+       }
+
+        public void sapXep(int[] arr) {
+               strategy.sapXep(arr);
+       }
+}
+4. Thiết lập và sử dụng: Cuối cùng, thiết lập Context với một đối tượng thuật toán cụ thể và sau đó sử dụng nó để thực hiện các thuật toán đó.
+Context gọi phương thức thực thi dựa vào đối tượng strategy. Context không biết thuật toán của strategy được cài đặt như thế nào.
+
+Class ChuongTrinh
+
+import java.util.Random;
+
+public class ChuongTrinh {
+	public static void main(String[] args) {
+		int[] arr = new int[10000];
+        Random rd = new Random();
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = rd.nextInt();
+        }
+	
+		Context context = new Context();
+		var t1 = System.currentTimeMillis();
+		context.setStrategy(new SapXepNoiBot());
+		context.sapXep(arr);
+		var t2 = System.currentTimeMillis();
+		// thoi gian thuc thi (1)  = t2 - t1 (ms)
+
+//		context.setStrategy(new (SapXepChen());
+//		context.sapXep(arr);
+//		var t2 = System.currentTimeMillis();
+//		// thoi gian thuc thi (2) = t2 - t1 (ms)
+//
+//		context.setStrategy(new (SapXepNhanh());
+//		context.sapXep(arr);
+//		var t2 = System.currentTimeMillis();
+//		// thoi gian thuc thi (3) = t2 - t1 (ms)
+	}
+}
+XII. State
+2. Dựng
+1. Interface State khai báo các phương thức đặc thù cho state.
+Các phương thức này phải có ý nghĩa cho tất cả các state vì bạn không muốn các state phải cài đặt các hàm vô ích hay các hàm mà không bao giờ được gọi
+
+interface State
+
+package states;
+
+public interface State {
+	void onCalling();
+	void onSMSReceived();
+	void onSystemNotification();
+}
+2. Concrete State implements State phải cung cấp bản cài đặt cụ thể của nó tương ứng với trạng thái cụ thể.
+Để tránh lặp lại code của nhiều state, có thể đưa ra các lớp trừu tượng & đóng gọi các hành vi chung
+
+Các đối tượng State có thể lưu backreference context object. Thông qua tham chiếu này, state có thể lấy thông tin cần thiết từ context object cũng như thực hiện việc chuyển trạng thái cho context.
+
+Class Utils
+
+package dp;
+
+public class Utils {
+	public static void rung() {
+		System.out.println("Rung điện thoại");
+	}
+
+	public static void phátÂmThanh(int âmLượng, int sốLần) {
+		System.out.printf("BEEP-BEEP với âm lượng %d trong %d lần\\n", âmLượng, sốLần);
+	}
+}
+Class StateChuẩn
+
+package states;
+
+import dp.Utils;
+
+public class StateChuẩn implements State {
+
+	@Override
+	public void onCalling() {
+		System.out.printf("OnCalling: [\\n");
+		Utils.rung();
+		Utils.phátÂmThanh(80, 3);
+		System.out.printf("]\\n");
+	}
+
+	@Override
+	public void onSMSReceived() {
+		System.out.println("On SMS received: [");
+		Utils.phátÂmThanh(60, 1);
+		System.out.println("]");
+	}
+
+	@Override
+	public void onSystemNotification() {
+		System.out.println("On System notification: [");
+		Utils.phátÂmThanh(50, 1);
+		System.out.println("]");		
+	}
+}
+Class StateNgoàiTrời
+
+package states;
+
+import dp.Utils;
+
+public class StateNgoàiTrời implements State {
+
+	@Override
+	public void onCalling() {
+		System.out.printf("OnCalling: [\\n");
+		Utils.rung();
+		Utils.rung();
+		Utils.rung();
+		Utils.phátÂmThanh(100, 5);
+		System.out.printf("]\\n");
+	}
+
+	@Override
+	public void onSMSReceived() {
+		System.out.println("On SMS received: [");
+		Utils.phátÂmThanh(100, 1);
+		System.out.println("]");
+	}
+
+	@Override
+	public void onSystemNotification() {
+		System.out.println("On System notification: [");
+		Utils.phátÂmThanh(90, 1);
+		System.out.println("]");		
+	}
+
+}
+Class StateYênLặng
+
+package states;
+
+import dp.Utils;
+
+public class StateYênLặng implements State{
+
+	@Override
+	public void onCalling() {
+		System.out.printf("OnCalling: [\\n");
+		Utils.rung();
+		System.out.printf("]\\n");
+	}
+
+	@Override
+	public void onSMSReceived() {
+		System.out.println("On SMS received: [");		
+		System.out.println("]");
+	}
+
+	@Override
+	public void onSystemNotification() {
+		System.out.println("On System notification: [");
+		System.out.println("]");		
+	}
+}
+3. Class Context chứa tham chiếu đến một trong những đối tượng state & nhờ nó thực hiện các công việc (tạo các hàm như trong interface) tuỳ thuộc vào state. Context sẽ giao tiếp với state object thông qua giao diện state. Context có setter để có thể thay đổi state cho đối tượng.
+Class Phone
+
+package dp;
+
+import states.*;
+
+public class Phone {
+	private State state;
+
+	public void onCalling() {
+		this.state.onCalling();
+	}
+	
+	public void onSMSReceived() {
+		this.state.onSMSReceived();
+	}
+	
+	public void onSystemNotification() {
+		this.state.onSystemNotification();
+	}
+	
+	public void setProfile(State state) {
+		System.out.printf("Thiết lập trạng thái [%s] cho 
+			điện thoại\\n", state.getClass().toString());
+		this.state = state;
+	}
+}
+4. Cả context lẫn concrete state đều có thể thay đổi state cho context và thực hiện việc chuyển trạng thái.
+Class TestProgram
+
+package dp;
+
+import states.StateNgoàiTrời;
+import states.StateYênLặng;
+public class TestProgram {
+
+	public static void main(String[] args) {
+		Phone dt = new Phone();
+		
+		// 1a, b, c, d) Thiết lập trạng thái NgoàiTrời 
+		// cho điện thoại
+		dt.setProfile(new StateNgoàiTrời());
+		dt.onSMSReceived();
+		dt.onCalling();
+		dt.onSystemNotification();
+		
+		// 2a, b, c, d) Thử nghiệm với trạng thái YênLặng 
+		// cho điện thoại
+		dt.setProfile(new StateYênLặng());
+		dt.onSMSReceived();
+		dt.onCalling();
+		dt.onSystemNotification();
+	}
+}
+XIII. Iterator
+2. Dựng
+1. Định nghĩa interface Iterator: Xác định các phương thức cần thiết cho việc duyệt qua các phần tử.
+interface IteratorSoNguyen
+
+package test.ite;
+
+public interface IteratorSoNguyen {
+	// khởi động bộ lặp
+	void start();
+	
+	// kiểm tra xem có ptử phía sau?
+	boolean hasNext();
+	
+	// lấy giá trị ptử hiện tại & dịch ra sau
+	int next();
+}
+2. Định nghĩa interface Aggregate: Xác định phương thức để tạo một iterator.
+interface IterableSoNguyenCollection
+
+package test.ite;
+
+public interface IterableSoNguyenCollection {
+	// Tạo ra bộ duyệt "chuẩn" 1-->n
+	IteratorSoNguyen getIteratorSoNguyenChuan();
+}
+3. Cài đặt lớp cụ thể của Aggregate: Triển khai giao diện Aggregate và chứa cấu trúc dữ liệu.
+Class MyDataStructure
+
+package test.ite.implement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import test.ite.IterableSoNguyenCollection;
+import test.ite.IteratorSoNguyen;
+
+public class MyDataStructure implements IterableSoNguyenCollection {
+	private List<Integer> lst = new ArrayList<>();
+
+	public void setList(List<Integer> lst) {
+		this.lst = lst;
+	}
+
+	public void add(Integer x) {
+		this.lst.add(x);
+	}
+
+	@Override
+	public IteratorSoNguyen getIteratorSoNguyenChuan() {
+		return new IteratorSoNguyenChuan(lst);
+	}
+
+	public IteratorSoNguyenDuong getIteratorSoNguyenDuong() {
+		return new IteratorSoNguyenDuong(lst);
+	}
+
+	public List<Integer> getLst() {
+		return lst;
+	}
+}
+4. Cài đặt lớp cụ thể của Iterator: Triển khai giao diện Iterator và cung cấp logic duyệt qua các phần tử.
+Class IteratorSoNguyenDuong
+
+package test.ite.implement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import test.ite.IteratorSoNguyen;
+
+public class IteratorSoNguyenDuong implements IteratorSoNguyen {
+	private List<Integer> lst;
+	private int pos;
+
+	public IteratorSoNguyenDuong(List<Integer> lst) {
+		this.lst = new ArrayList<>();
+		lst.forEach(x -> {
+			if (x > 0)
+				this.lst.add(x);
+		});
+	}
+
+	public IteratorSoNguyenDuong(Integer... integers) {
+		lst = new ArrayList<>();
+		for (var x: integers)
+			if (x > 0)
+				lst.add(x);
+	}
+	
+	@Override
+	public void start() {
+		this.pos = 0;
+	}
+
+	@Override
+	public boolean hasNext() {
+		return this.pos <= this.lst.size() - 1;
+	}
+
+	@Override
+	public int next() {
+		var x = this.lst.get(this.pos);
+		this.pos++;
+		return x;
+	}
+}
+Class IteratorSoNguyenChuan
+
+package test.ite.implement;
+
+import java.util.List;
+
+import test.ite.IteratorSoNguyen;
+
+// Duyệt danh sách số nguyên theo kiểu chuẩn
+public class IteratorSoNguyenChuan implements IteratorSoNguyen {
+	private List<Integer> lst;
+	private int pos;
+
+	public IteratorSoNguyenChuan(List<Integer> lst) {
+		this.lst = lst;
+	}
+
+	@Override
+	public void start() {
+		this.pos = 0;
+	}
+
+	@Override
+	public boolean hasNext() {
+		if (this.pos <= this.lst.size() - 1)
+			return true;
+		else
+			return false;
+	}
+
+	@Override
+	public int next() {
+		var x = this.lst.get(this.pos);
+		this.pos++;
+		return x;
+	}
+}
+Class IteratorSoNguyenVTChan
+
+package test.ite.implement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import test.ite.IteratorSoNguyen;
+
+public class IteratorSoNguyenVTChan implements IteratorSoNguyen{
+	private int vt;
+	private List<Integer> lst;
+	
+	public IteratorSoNguyenVTChan(List<Integer> lst) {
+		this.lst = new ArrayList<>();
+		for (int i = 0; i < lst.size(); i = i+2)
+			this.lst.add(lst.get(i));		
+	}
+	
+	@Override
+	public void start() {
+		this.vt = 0;		
+	}
+
+	@Override
+	public boolean hasNext() {
+		return this.vt < this.lst.size();
+	}
+
+	@Override
+	public int next() {
+		var x = this.lst.get(vt);
+		vt++;
+		return x;
+	}
+}
+5. Sử dụng Iterator: Tạo một instance của Aggregate, sau đó sử dụng iterator để duyệt qua các phần tử.
+Class ChuongTrinhThuNghiem
+
+package test;
+
+import test.ite.IteratorSoNguyen;
+import test.ite.implement.IteratorSoNguyenDuong;
+import test.ite.implement.MyDataStructure;
+
+public class ChuongTrinhThuNghiem {
+
+	static void printWithIterator(IteratorSoNguyen it) {
+		it.start();
+		while (it.hasNext()) {
+			int e = it.next();
+
+			System.out.printf("%d ", e);
+		}
+		System.out.println();
+	}
+
+	public static void main(String[] args) {
+		MyDataStructure x = new MyDataStructure();
+		x.add(15);
+		x.add(2);
+		x.add(100);
+		x.add(-1340);
+		x.add(135);
+		x.add(12);
+		x.add(-4);
+		x.add(5);
+		x.add(-3);
+
+		IteratorSoNguyen it;
+		it = x.getIteratorSoNguyenChuan();
+		printWithIterator(it);
+		
+		it = x.getIteratorSoNguyenDuong();
+		it = new IteratorSoNguyenDuong(1, 2, -4, 55, 566, -3, 1, -1, 10);
+
+//		it = new IteratorSoNguyenVTChan(x.getLst());
+
+		printWithIterator(it);
+	}
+}
+
+Một số BT
+BT1:
+package service
+Class SinhVienRepo
+
+package _21T1020105_service;
+
+import java.util.List;
+
+import _21T1020105_model.SinhVien;
+
+public interface SinhVienRepo {
+	List<SinhVien> selectAll();
+
+	void insert(SinhVien sv);
+
+	void delete(String maSinhVien);
+}
+package model
+Class SinhVien
+
+package _21T1020105_model;
+
+import java.util.Date;
+
+@lombok.Getter
+@lombok.Setter
+@lombok.NoArgsConstructor
+@lombok.AllArgsConstructor
+public class SinhVien {
+	private String maSinhVien;
+	private String hoTen;
+	private boolean gioiTinhNam;
+	private Date ngaySinh;
+}
+Class CauHinh
+
+package _21T1020105_model;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+@lombok.Getter
+@lombok.Setter
+public class CauHinh {
+	public static String LOAI_TEXT_FILE = "TEXT_FILE";
+	public static String LOAI_SQL = "MS_SQLSERVER";
+	
+	private String loaiNguon;
+	private String chuoiKetNoi;
+	private static CauHinh _instance = null;
+
+	private CauHinh() {
+        try {
+        	BufferedReader br = new BufferedReader(new FileReader("config2.txt"));
+            loaiNguon = br.readLine();
+            chuoiKetNoi = br.readLine();
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	public static CauHinh getInstance() {
+        if (_instance == null) {
+            _instance = new CauHinh();
+        }
+        return _instance;
+    }
+}
+Class DbHelper
+
+package _21T1020105_model;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DbHelper {
+	private Connection con = null;
+	
+	public Connection getConnection() {
+		return this.con;
+	}
+
+	private static DbHelper _instance = null;
+	
+	
+	private DbHelper() {
+		String connectionUrl = CauHinh.getInstance().getChuoiKetNoi();
+		try {
+			con = DriverManager.getConnection(connectionUrl);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static DbHelper getInstance() throws SQLException {
+		if (_instance == null)
+			_instance = new DbHelper();
+			
+		return _instance;
+	}
+}
+package implement
+Class SinhVienRepoSqlServer
+
+package _21T1020105_implement;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import _21T1020105_model.DbHelper;
+import _21T1020105_model.SinhVien;
+import _21T1020105_service.SinhVienRepo;
+
+public class SinhVienRepoSqlServer implements SinhVienRepo {
+	private String chuoiKetNoi;
+
+	public SinhVienRepoSqlServer(String cnnst) {
+		this.chuoiKetNoi = cnnst;
+	}
+
+	@Override
+	public List<SinhVien> selectAll() {
+		List<SinhVien> lstSV = new ArrayList<>();
+	    try {
+	    	Connection con = DbHelper.getInstance().getConnection();
+	    	String sql = "SELECT * FROM SinhVien";
+	        PreparedStatement stm = con.prepareStatement(sql);
+	        ResultSet rs = stm.executeQuery();
+	        while (rs.next()) {
+	        	String masv = rs.getString("MaSinhVien");
+				String hoten = rs.getString("HoTen");
+				Date ngaysinh = rs.getDate("NgaySinh");
+				Boolean gioitinhnam = rs.getBoolean("GioiTinhNam");
+				lstSV.add(new SinhVien(masv, hoten, gioitinhnam, ngaysinh));
+	        }
+	        rs.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return lstSV;
+	}
+
+	@Override
+	public void insert(SinhVien sv) {
+		try {
+	    	Connection con = DbHelper.getInstance().getConnection();
+	    	String sql = "INSERT INTO SinhVien (MaSinhVien, HoTen, GioiTinhNam, NgaySinh) VALUES (?, ?, ?, ?)";
+	        PreparedStatement stm = con.prepareStatement(sql);
+	        stm.setString(1, sv.getMaSinhVien());
+	        stm.setString(2, sv.getHoTen());
+	        stm.setBoolean(3, sv.isGioiTinhNam());
+	        stm.setDate(4, new java.sql.Date(sv.getNgaySinh().getTime()));
+	        stm.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	@Override
+	public void delete(String maSinhVien) {
+		try {
+	    	Connection con = DbHelper.getInstance().getConnection();
+	    	String sql = "DELETE FROM SinhVien WHERE MaSinhVien = ?";
+	        PreparedStatement stm = con.prepareStatement(sql);
+	        stm.setString(1, maSinhVien);
+	        stm.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+}
+Class SinhVienRepoTXT
+
+package _21T1020105_implement;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import _21T1020105_model.SinhVien;
+import _21T1020105_service.SinhVienRepo;
+
+public class SinhVienRepoTXT implements SinhVienRepo {
+	private String chuoiKetNoi;
+
+	public SinhVienRepoTXT(String filename) {
+		this.chuoiKetNoi = filename;
+	}
+
+	private Date convertToDate(String stDMY) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date kq = null;
+		try {
+			kq = sdf.parse(stDMY);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return kq;
+	}
+
+	private String convertDateToString(Date d) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String strDay = sdf.format(d);
+		return strDay;
+	}
+	
+	@Override
+	public List<SinhVien> selectAll() {
+		
+		ArrayList<SinhVien> lstSV = new ArrayList<SinhVien>();
+		try{
+		     FileReader f = new FileReader(this.chuoiKetNoi);
+		     BufferedReader b = new BufferedReader(f);
+		     while(true){
+		          String st = b.readLine();
+		          if(st == null || st == "") break;
+		          String[] tt = st.split(",");
+		          lstSV.add(new SinhVien(tt[0], tt[1], Boolean.parseBoolean(tt[2]), convertToDate(tt[3])));
+		     }
+		     b.close();
+		} catch(Exception e) {
+		     e.printStackTrace();
+		}
+		return lstSV;
+	}
+
+	@Override
+	public void insert(SinhVien sv) {
+		try {
+			// mở file ở chế độ APPEND
+			FileWriter fw = new FileWriter(this.chuoiKetNoi, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			// ghi dòng tương ứng sv
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			String stNewSV = String.format("%s,%s,%s,%s\\n", //
+					sv.getMaSinhVien(), //
+					sv.getHoTen(), //
+					sv.isGioiTinhNam(), //
+					convertDateToString(sv.getNgaySinh())//
+			);
+			bw.write(stNewSV);
+			
+			// đóng file lại
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delete(String maSinhVien) {
+		// Đọc danh sách SinhVien
+		var lst = selectAll();
+		
+		// Tìm vị trí trong danh sách mà trùng với maSinhVien
+		// or những vị trí, trường hợp trong file txt có nhiều sv có trùng msv --> dùng for each
+		int viTri = -1;
+		for (int i = 0; i < lst.size(); i++)
+			if (lst.get(i).getMaSinhVien().equals(maSinhVien)) {
+				viTri = i;
+				break;
+			}
+		
+		if (viTri != -1)
+			lst.remove(viTri);
+		
+		// Ghi toàn bộ danh sách này vào file
+		// - Mở file ở chế độ ghi đè
+		// - foreach sv
+		// 		write dòng sv vào file
+		// - Đóng file lại
+		try {
+			FileWriter w = new FileWriter(this.chuoiKetNoi);
+			// FileWriter w = new FileWriter(this.chuoiKetNoi, false);
+	        PrintWriter ghi = new PrintWriter(w);
+	        //boolean laDongDauTien = true;
+	        for (var sv : lst) {
+				String stNewSV = String.format("%s,%s,%s,%s\\n", //
+						sv.getMaSinhVien(), //
+						sv.getHoTen(), //
+						sv.isGioiTinhNam(), //
+						convertDateToString(sv.getNgaySinh())//
+				);
+				ghi.write(stNewSV);
+	        }
+	        ghi.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+Class SinhVienRepoFactory
+
+package _21T1020105_implement;
+
+import _21T1020105_model.CauHinh;
+import _21T1020105_service.SinhVienRepo;
+
+public class SinhVienRepoFactory {
+	public SinhVienRepo createSinhVienRepo(CauHinh cfg) {
+		if (cfg.getLoaiNguon().equals(cfg.LOAI_TEXT_FILE) ){
+			return new SinhVienRepoTXT(cfg.getChuoiKetNoi());
+		} else {
+			return new SinhVienRepoSqlServer(cfg.getChuoiKetNoi());
+		}
+	}
+}
+package ui
+Class ChuongTrinh
+
+package _21T1020105_ui;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import _21T1020105_implement.SinhVienRepoFactory;
+import _21T1020105_model.CauHinh;
+import _21T1020105_model.SinhVien;
+import _21T1020105_service.SinhVienRepo;
+
+public class ChuongTrinh {
+	static SimpleDateFormat d = new SimpleDateFormat("dd/MM/yyyy");
+	public static void main(String[] args) throws IOException {
+		// Đọc cấu hình từ file config.txt
+        CauHinh cfg = CauHinh.getInstance();
+
+        SinhVienRepo repo = (new SinhVienRepoFactory()).createSinhVienRepo(cfg);
+        
+		// 1. Đọc & in danh sách sv
+		var lst = repo.selectAll();
+		System.out.println("Danh sách các sinh viên đọc được");
+		inDanhSach(lst);
+
+		// 2. Insert sv vào nguồn dữ liệu
+		SinhVien svMoi = new SinhVien();
+		svMoi.setMaSinhVien("21T1020123");
+		svMoi.setHoTen("Nguyen Nhu Quynh");
+		svMoi.setGioiTinhNam(false);
+		try {
+			svMoi.setNgaySinh(d.parse("12/06/2003"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		repo.insert(svMoi);
+		System.out.println("\\nDanh sách sinh viên sau khi insert");
+		lst = repo.selectAll();
+		inDanhSach(lst);
+
+		// 3. Xoá sinh viên khỏi nguồn dữ liệu
+		repo.delete("21T1020123");
+		System.out.println("\\nDanh sách sinh viên sau khi xóa");
+		lst = repo.selectAll();
+		inDanhSach(lst);
+	}
+
+	/**
+	 * In danh sách sinh viên trong danh sách lst ra màn hình
+	 * 
+	 * @param lst
+	 */
+	private static void inDanhSach(List<SinhVien> lst) {
+		for (int i = 0; i < lst.size(); i++) {
+			var sv = lst.get(i);
+			System.out.printf("%5s %30s %8s %s\\n", //
+					sv.getMaSinhVien(), //
+					sv.getHoTen(), //
+					sv.isGioiTinhNam(), //
+					d.format(sv.getNgaySinh()));//
+		}
+	}
+}

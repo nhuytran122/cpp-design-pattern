@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;A00_To_hop_phim_Chuc_nang.java&apos; to &apos;A00_Note/src/NoteCode&apos;&#x0D;&#x0A;- Original project: &apos;A00_Start&apos;&#x0D;&#x0A;- Destination element: &apos;A00_Note/src/NoteCode&apos;&#x0D;&#x0A;- Original element: &apos;NOTE.A00_To_hop_phim_Chuc_nang.java&apos;" description="Copy compilation unit" destination="=A00_Note/src&lt;NoteCode" element1="/src&lt;NOTE{A00_To_hop_phim_Chuc_nang.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1715607246951" units="1" version="1.0"/>
+</session>

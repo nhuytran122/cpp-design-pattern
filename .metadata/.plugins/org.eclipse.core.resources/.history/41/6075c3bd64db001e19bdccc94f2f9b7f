@@ -1,0 +1,50 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class ChuongTrinh {
+
+	/**
+	 * Thử kết nối đến nguồn dữ liệu Ms SQL Server
+	 * 
+	 * @throws SQLException
+	 */
+	static void testReadDb() throws Exception {
+		// 1. tạo connection
+		String connectionUrl = "jdbc:sqlserver://PC-HFA1062\\SQLEXPRESS01:1433; databaseName=QLNV; user=sa; password=trannhuy; encrypt=true; trustServerCertificate=true";
+		Connection con = DriverManager.getConnection(connectionUrl);
+
+		// 2. Tạo stmt
+		PreparedStatement cmd = cn.prepareStatement(SQL);
+		String SQL = "select * from tbl_nhanvien";
+
+		// 3. Thực thi stmt --> trả về tập kq
+		ResultSet rs = stmt.executeQuery(SQL);
+
+		// 4. Xử lý kq
+		while (rs.next()) {
+			String maTheLoai = rs.getString(1);
+			String tenTheLoai = rs.getString(2);
+
+			System.out.printf("Ma the loai = [%s], Ten the loai = [%s]\n", maTheLoai, tenTheLoai);
+		}
+
+		// 5. Giải phóng rsc
+		rs.close();
+		con.close();
+	}
+
+	public static void main(String[] args) {
+		try {
+			testReadDb();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

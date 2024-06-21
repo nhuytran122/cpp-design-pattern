@@ -1,0 +1,2 @@
+TEXT_FILE
+D:\HK6\DesignPattern\DP06_KTGiuaKy\sinhvien.txt

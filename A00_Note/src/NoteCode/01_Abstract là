@@ -1,0 +1,30 @@
+ABSTRACT
+- Lớp trừu tượng là lớp xây dựng ra để lớp khác kế thừa, các thành phần trong lớp có thể cài đặt có thể không cần cài đặt.
+- Tạo lớp trừu tượng bằng cách thêm từ khoá abstract khi khai báo
+- Lớp con kế thừa lên lớp trừu tượng, lớp con phải xây dựng lại tất cả các phương thức trừu tượng
+- Cha xây dựng để dùng cho nó, nhưng chưa dựng hoàn thiện (có thể chỉ khai báo và chưa dựng), lớp con phải hoàn tất việc xây dựng để lớp cha sài
+
+public abstract class SinhVien {
+	protected String MaSv;
+	protected String HoTen;
+	public SinhVien(String MaSv, String HoTen ){
+		this.MaSv=MaSv;
+		this.HoTen=HoTen;
+	}
+	public abstract Double Dtb();
+	public String KetQua(){
+		return Dtb()>=5?"Dau":"Rot";
+	}
+}
+
+public class SVTOAN extends SinhVien{
+	double dm1; double dm2;
+	public SVTOAN (String MaSv, String HoTen, double dm1, double dm2){
+		super (MaSv, HoTen);
+		this.dm1=dm1;
+		this.dm2=dm2;
+	}
+	public Double Dtb(){
+		return (2*dm1+dm2)/3;
+	}
+}

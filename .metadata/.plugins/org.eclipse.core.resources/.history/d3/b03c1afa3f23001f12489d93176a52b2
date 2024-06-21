@@ -1,0 +1,10 @@
+
+public class Heo implements ConVật {
+
+	@Override
+	public void kêu() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

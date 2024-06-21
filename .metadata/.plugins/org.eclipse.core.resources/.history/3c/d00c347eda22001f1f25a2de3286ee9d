@@ -1,0 +1,8 @@
+import java.util.Date;
+
+public class SinhVien {
+	private String masv;
+	String hoten;
+	boolean gioitinhnam;
+	Date ngaysinh;
+}

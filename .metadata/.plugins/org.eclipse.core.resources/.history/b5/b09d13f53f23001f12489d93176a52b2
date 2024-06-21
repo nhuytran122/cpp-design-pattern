@@ -1,0 +1,4 @@
+public interface ConVật {
+	void kêu();
+	void ăn()
+}

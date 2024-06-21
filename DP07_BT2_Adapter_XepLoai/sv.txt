@@ -1,0 +1,5 @@
+21T1020105,Tran Nhu Y,8.6
+21T1020101,Nguyen Phuong Minh,6.5
+21T1020102,Pham Minh Anh,4.8
+21T1020103,Pham Uyen Thu,7.6
+21T1020104,Le Trung Kien,3.9

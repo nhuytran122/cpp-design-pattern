@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;flyweight2.FlyweightPatternDemo&apos; to &apos;FlyweightPatternDemoMain&apos;&#x0D;&#x0A;- Original project: &apos;DP09_Flyweight_Circle&apos;&#x0D;&#x0A;- Original element: &apos;flyweight2.FlyweightPatternDemo&apos;&#x0D;&#x0A;- Renamed element: &apos;flyweight2.FlyweightPatternDemoMain&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;FlyweightPatternDemo&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;flyweight2{FlyweightPatternDemo.java[FlyweightPatternDemo" matchStrategy="1" name="FlyweightPatternDemoMain" qualified="false" references="true" similarDeclarations="false" stamp="1715175630501" textual="false" version="1.0"/>
+</session>
